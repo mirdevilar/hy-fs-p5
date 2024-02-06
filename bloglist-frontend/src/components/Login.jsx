@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 import loginService from '../services/loginService'
+import blogsService from '../services/blogsService'
 
 const Login = ({setUser}) => {
   const [username, setUsername] = useState('')
@@ -26,7 +27,7 @@ const Login = ({setUser}) => {
   }
 
   return (
-    <>
+    <section>
       <h2>Log in</h2>
       <form onSubmit={handleLogin}>
         Username
@@ -46,7 +47,7 @@ const Login = ({setUser}) => {
         <button type="submit">Login</button>
         {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
       </form>  
-    </>
+    </section>
   ) 
 }
 

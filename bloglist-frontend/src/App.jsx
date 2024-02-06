@@ -4,11 +4,11 @@ import BlogsSection from './components/BlogsSection'
 import Login from './components/Login'
 
 import blogsService from './services/blogsService'
+import CreateForm from './components/CreateForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-
 
   useEffect(() => {
     //setUser({username: "poop"})
@@ -20,8 +20,9 @@ const App = () => {
     const storedUser = window.localStorage.getItem('user')
     if (storedUser) {
       setUser(JSON.parse(storedUser))
+      //blogsService.setToken(user.token)
     }
-  })
+  }, [])
 
   const handleLogout = () => {
     setUser(null)
@@ -33,6 +34,7 @@ const App = () => {
       <h1><i>Blogs app</i></h1>
 
       {user && <p>Logged in as <b>{user.username}</b> <button onClick={handleLogout} >Log out</button></p>}
+      {user && <CreateForm blogs={blogs} setBlogs={setBlogs} token={user.token} />}
       {user && <BlogsSection blogs={blogs} />}
 
       {!user && <Login setUser={setUser} />}
