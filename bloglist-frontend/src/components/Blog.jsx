@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog, blogs, setBlogs, updateBlog }) => {
+const Blog = ({ user, blog, blogs, setBlogs, updateBlog, deleteBlog }) => {
   const [displayDetails, setDisplayDetails] = useState(false)
 
   const toggleDetails = () => {
@@ -18,6 +18,12 @@ const Blog = ({ blog, blogs, setBlogs, updateBlog }) => {
     updateBlog(blog)
   }
 
+  const handleDelete = () => {
+    if (window.confirm('Are you sure you want to delete the blog?')) {
+      deleteBlog(blog)
+    }
+  }
+
   const blogStyle = {
     backgroundColor: '#dae2ec',
     marginTop: '10px',
@@ -32,10 +38,9 @@ const Blog = ({ blog, blogs, setBlogs, updateBlog }) => {
       {displayDetails &&
         <p>
           Likes: {blog.likes}<button onClick={handleLike}>Like</button><br />
-          Uploaded by {blog.user.username}
+          Uploaded by {blog.user.username}<br />
+          {blog.user.username === user.username && <button onClick={handleDelete}>Delete</button>}
         </p>
-        
-        
       }
     </div>
   )

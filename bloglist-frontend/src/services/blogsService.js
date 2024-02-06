@@ -12,14 +12,19 @@ const getAll = async () => {
 const create = async (blog, token) => {
   const headers = { Authorization: helper.parseAuthHeader(token) }
   const res = await axios.post(baseUrl, blog, { headers })
-  console.log(res.data)
   return res.data
 }
 
 const update = async (blog, token) => {
   const headers = { Authorization: helper.parseAuthHeader(token) }
   const res = await axios.put(baseUrl + blog.id, blog, {headers})
-  console.log(res.data)
+  return res.data
 }
 
-export default { getAll, create, update }
+const remove = async (id, token) => {
+  const headers = { Authorization: helper.parseAuthHeader(token) }
+  const res = await axios.delete(baseUrl + id, {headers})
+  return res.data
+}
+
+export default { getAll, create, update, remove }

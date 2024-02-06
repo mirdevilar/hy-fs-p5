@@ -21,12 +21,23 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
   }
 
   const updateBlog = async (blog) => {
+    const blogsCopy = blogs
     try {
-      const updatedBlog = await blogsService.update({ ...blog, user: blog.user.id }, user.token)
-      const blogsCopy = blogs
       setBlogs(blogsCopy.map(b => b.id !== blog.id ? b : blog))
-      console.log(blogsCopy)
+      const updatedBlog = await blogsService.update({ ...blog, user: blog.user.id }, user.token)
     } catch (error) {
+      setBlogs(blogsCopy)
+      notify(error.response.data.error, 'red')
+    }
+  }
+
+  const deleteBlog = async (blog) => {
+    const blogsCopy = blogs
+    try {
+      setBlogs(blogsCopy.filter(b => b.id !== blog.id))
+      await blogsService.remove(blog.id, user.token)
+    } catch (error) {
+      setBlogs(blogsCopy)
       notify(error.response.data.error, 'red')
     }
   }
@@ -51,9 +62,11 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
         {blogs
           .sort((b1, b2) => b2.likes - b1.likes)
           .map(b => <Blog 
+            user={user}
             blog={b}
             key={b.id}
             updateBlog={updateBlog}
+            deleteBlog={deleteBlog}
           />)
         }
       </div>
