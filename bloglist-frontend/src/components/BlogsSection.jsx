@@ -6,7 +6,7 @@ import Toggleable from './Toggleable'
 
 import blogsService from '../services/blogsService'
 
-const BlogsSection = ({blogs, setBlogs, user, notify}) => {
+const BlogsSection = ({ blogs, setBlogs, user, notify }) => {
   const createFormRef = useRef()
 
   const createBlog = async (blog) => {
@@ -45,14 +45,14 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
   return (
     <section>
       <h2><i>Blogs</i></h2>
-      {user && 
+      {user &&
         <>
           <Toggleable showLabel='+ New' hideLabel="Cancel" ref={createFormRef}>
-            <CreateForm 
-              blogs={blogs} 
+            <CreateForm
+              blogs={blogs}
               setBlogs={setBlogs}
-              token={user.token} 
-              notify={notify} 
+              token={user.token}
+              notify={notify}
               createBlog={createBlog} />
           </Toggleable>
           <br />
@@ -61,7 +61,7 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
       <div>
         {blogs
           .sort((b1, b2) => b2.likes - b1.likes)
-          .map(b => <Blog 
+          .map(b => <Blog
             user={user}
             blog={b}
             key={b.id}

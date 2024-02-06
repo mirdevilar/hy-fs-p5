@@ -26,10 +26,10 @@ const App = () => {
   }, [])
 
   const notify = (msg, color) => {
-    setNotification({msg, color})
+    setNotification({ msg, color })
     setTimeout(() => {
       setNotification(null)
-    }, 3000);
+    }, 3000)
   }
 
   const handleLogout = () => {
@@ -40,7 +40,7 @@ const App = () => {
   return (
     <>
       <h1><i>Blogs app</i></h1>
-      {notification && <p style={{color: notification.color}}>{notification.msg}</p>}
+      {notification && <p style={{ color: notification.color }}>{notification.msg}</p>}
       {user && <p>Logged in as <b>{user.username}</b> <button onClick={handleLogout} >Log out</button></p>}
       {!user && <Login setUser={setUser} />}
       {user && <BlogsSection blogs={blogs} setBlogs={setBlogs} user={user} notify={notify} />}

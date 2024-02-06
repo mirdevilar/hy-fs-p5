@@ -17,13 +17,13 @@ const create = async (blog, token) => {
 
 const update = async (blog, token) => {
   const headers = { Authorization: helper.parseAuthHeader(token) }
-  const res = await axios.put(baseUrl + blog.id, blog, {headers})
+  const res = await axios.put(baseUrl + blog.id, blog, { headers })
   return res.data
 }
 
 const remove = async (id, token) => {
   const headers = { Authorization: helper.parseAuthHeader(token) }
-  const res = await axios.delete(baseUrl + id, {headers})
+  const res = await axios.delete(baseUrl + id, { headers })
   return res.data
 }
 

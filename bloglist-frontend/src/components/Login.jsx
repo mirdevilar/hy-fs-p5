@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 import loginService from '../services/loginService'
 import blogsService from '../services/blogsService'
 
-const Login = ({setUser}) => {
+const Login = ({ setUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -13,7 +13,7 @@ const Login = ({setUser}) => {
     e.preventDefault()
 
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
       setUser(user)
       window.localStorage.setItem('user', JSON.stringify(user))
       setUsername('')
@@ -31,24 +31,24 @@ const Login = ({setUser}) => {
       <h2><i>Log in</i></h2>
       <form onSubmit={handleLogin}>
         Username
-        <input 
+        <input
           type="text"
           value={username}
           name="Username"
-          onChange={({target}) => {setUsername(target.value)}}
+          onChange={({ target }) => {setUsername(target.value)}}
         /><br />
         Password
         <input
           type="password"
           value={password}
           name="Password"
-          onChange={({target}) => {setPassword(target.value)}}
+          onChange={({ target }) => {setPassword(target.value)}}
         /><br />
         <button type="submit">Login</button>
-        {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
-      </form>  
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      </form>
     </section>
-  ) 
+  )
 }
 
 export default Login

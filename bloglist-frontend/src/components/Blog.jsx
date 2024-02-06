@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ user, blog, blogs, setBlogs, updateBlog, deleteBlog }) => {
   const [displayDetails, setDisplayDetails] = useState(false)
 
   const toggleDetails = () => {
     setDisplayDetails(!displayDetails)
-  } 
+  }
 
   const getDisplayDetails = () => {
     return displayDetails ?

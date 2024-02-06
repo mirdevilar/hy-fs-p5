@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-import blogsService from "../services/blogsService"
+import blogsService from '../services/blogsService'
 
-const CreateForm = ({createBlog}) => {
+const CreateForm = ({ createBlog }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -11,7 +11,7 @@ const CreateForm = ({createBlog}) => {
   const handleCreate = (e) => {
     e.preventDefault()
 
-    createBlog({title, author, url})
+    createBlog({ title, author, url })
 
     setTitle('')
     setAuthor('')
@@ -22,23 +22,23 @@ const CreateForm = ({createBlog}) => {
     <section>
       <h3>Add new blog</h3>
       <form onSubmit={handleCreate}>
-        Title:<input 
+        Title:<input
           type='text'
           value={title}
           name="title"
-          onChange={({target}) => setTitle(target.value)}
+          onChange={({ target }) => setTitle(target.value)}
         /><br />
-        Author:<input 
+        Author:<input
           type='text'
           value={author}
           name="author"
-          onChange={({target}) => setAuthor(target.value)}
+          onChange={({ target }) => setAuthor(target.value)}
         /><br />
-        URL:<input 
+        URL:<input
           type='url'
           value={url}
           name="url"
-          onChange={({target}) => setUrl(target.value)}
+          onChange={({ target }) => setUrl(target.value)}
         /><br />
         <button type="submit">Add</button>
       </form>
