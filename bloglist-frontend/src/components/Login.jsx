@@ -11,11 +11,10 @@ const Login = ({setUser}) => {
   const handleLogin = async e => {
     e.preventDefault()
 
-    console.log('logging in with ', username, password)
-
     try {
       const user = await loginService.login(username, password)
       setUser(user)
+      window.localStorage.setItem('user', JSON.stringify(user))
       setUsername('')
       setPassword('')
     } catch (exception) {
