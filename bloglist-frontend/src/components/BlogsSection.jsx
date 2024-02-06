@@ -9,12 +9,23 @@ import blogsService from '../services/blogsService'
 const BlogsSection = ({blogs, setBlogs, user, notify}) => {
   const createFormRef = useRef()
 
-  const createBlog = async (title, author, url) => {
+  const createBlog = async (blog) => {
     try {
-      const newBlog = await blogsService.create({title, author, url}, user.token)
+      const newBlog = await blogsService.create(blog, user.token)
       setBlogs(await blogsService.getAll())
       createFormRef.current.toggleDisplay()
       notify(`${newBlog.title} by ${newBlog.author} added!`, 'green')
+    } catch (error) {
+      notify(error.response.data.error, 'red')
+    }
+  }
+
+  const updateBlog = async (blog) => {
+    try {
+      const updatedBlog = await blogsService.update({ ...blog, user: blog.user.id }, user.token)
+      const blogsCopy = blogs
+      setBlogs(blogsCopy.map(b => b.id !== blog.id ? b : blog))
+      console.log(blogsCopy)
     } catch (error) {
       notify(error.response.data.error, 'red')
     }
@@ -36,7 +47,11 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
           <br />
         </>
       }
-      <div>{blogs.map(b => <Blog blog={b} key={b.id} />)}</div>
+      <div>{blogs.map(b => <Blog 
+        blog={b}
+        key={b.id}
+        updateBlog={updateBlog}
+      />)}</div>
     </section>
   )
 }

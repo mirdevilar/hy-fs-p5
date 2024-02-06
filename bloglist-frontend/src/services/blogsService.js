@@ -16,4 +16,10 @@ const create = async (blog, token) => {
   return res.data
 }
 
-export default { getAll, create }
+const update = async (blog, token) => {
+  const headers = { Authorization: helper.parseAuthHeader(token) }
+  const res = await axios.put(baseUrl + blog.id, blog, {headers})
+  console.log(res.data)
+}
+
+export default { getAll, create, update }
