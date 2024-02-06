@@ -12,7 +12,7 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
   const createBlog = async (title, author, url) => {
     try {
       const newBlog = await blogsService.create({title, author, url}, user.token)
-      setBlogs(blogs.concat(newBlog))
+      setBlogs(await blogsService.getAll())
       createFormRef.current.toggleDisplay()
       notify(`${newBlog.title} by ${newBlog.author} added!`, 'green')
     } catch (error) {
