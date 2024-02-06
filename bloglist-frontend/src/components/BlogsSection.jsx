@@ -47,11 +47,16 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
           <br />
         </>
       }
-      <div>{blogs.map(b => <Blog 
-        blog={b}
-        key={b.id}
-        updateBlog={updateBlog}
-      />)}</div>
+      <div>
+        {blogs
+          .sort((b1, b2) => b2.likes - b1.likes)
+          .map(b => <Blog 
+            blog={b}
+            key={b.id}
+            updateBlog={updateBlog}
+          />)
+        }
+      </div>
     </section>
   )
 }
