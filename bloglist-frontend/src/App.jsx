@@ -10,8 +10,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
 
+  const [notification, setNotification] = useState(null)
+
   useEffect(() => {
-    //setUser({username: "poop"})
     blogsService.getAll()
       .then(initialBlogs => {setBlogs(initialBlogs)})
   }, [])
@@ -20,9 +21,15 @@ const App = () => {
     const storedUser = window.localStorage.getItem('user')
     if (storedUser) {
       setUser(JSON.parse(storedUser))
-      //blogsService.setToken(user.token)
     }
   }, [])
+
+  const notify = (msg, color) => {
+    setNotification({msg, color})
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000);
+  }
 
   const handleLogout = () => {
     setUser(null)
@@ -33,8 +40,9 @@ const App = () => {
     <>
       <h1><i>Blogs app</i></h1>
 
+      {notification && <p style={{color: notification.color}}>{notification.msg}</p>}
       {user && <p>Logged in as <b>{user.username}</b> <button onClick={handleLogout} >Log out</button></p>}
-      {user && <CreateForm blogs={blogs} setBlogs={setBlogs} token={user.token} />}
+      {user && <CreateForm blogs={blogs} setBlogs={setBlogs} token={user.token} notify={notify} />}
       {user && <BlogsSection blogs={blogs} />}
 
       {!user && <Login setUser={setUser} />}
