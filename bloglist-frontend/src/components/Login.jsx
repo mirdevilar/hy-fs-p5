@@ -13,7 +13,7 @@ const Login = ({setUser}) => {
     e.preventDefault()
 
     try {
-      const user = await loginService.login(username, password)
+      const user = await loginService.login({username, password})
       setUser(user)
       window.localStorage.setItem('user', JSON.stringify(user))
       setUsername('')
