@@ -24,16 +24,19 @@ const BlogsSection = ({blogs, setBlogs, user, notify}) => {
     <section>
       <h2><i>Blogs</i></h2>
       {user && 
-        <Toggleable showLabel='+ New' hideLabel="Cancel" ref={createFormRef}>
-          <CreateForm 
-            blogs={blogs} 
-            setBlogs={setBlogs}
-            token={user.token} 
-            notify={notify} 
-            createBlog={createBlog} />
-        </Toggleable>
+        <>
+          <Toggleable showLabel='+ New' hideLabel="Cancel" ref={createFormRef}>
+            <CreateForm 
+              blogs={blogs} 
+              setBlogs={setBlogs}
+              token={user.token} 
+              notify={notify} 
+              createBlog={createBlog} />
+          </Toggleable>
+          <br />
+        </>
       }
-      <ul>{blogs.map(b => <Blog blog={b} key={b.id} />)}</ul>
+      <div>{blogs.map(b => <Blog blog={b} key={b.id} />)}</div>
     </section>
   )
 }
