@@ -2,37 +2,25 @@ import { useState } from "react"
 
 import blogsService from "../services/blogsService"
 
-const CreateForm = ({blogs, setBlogs, token, notify}) => {
+const CreateForm = ({createBlog}) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const [errorMsg, setErrorMsg] = useState(null)
-
-  const handleCreate = async (e) => {
+  const handleCreate = (e) => {
     e.preventDefault()
-    console.log('creating', title, author, url)
 
-    try {
-      const newBlog = await blogsService.create({title, author, url}, token)
-      setBlogs(blogs.concat(newBlog))
-      notify(`${newBlog.title} by ${newBlog.author} added!`, 'green')
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-    } catch (error) {
-      console.log(error.response.data.error)
-      setErrorMsg(error.response.data.error)
-      setTimeout(() => {
-        setErrorMsg(null)
-      }, 3000)
-    }
+    createBlog(title, author, url)
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
     <section>
-      <h2><i>Add new blog</i></h2>
+      <h3>Add new blog</h3>
       <form onSubmit={handleCreate}>
         Title:<input 
           type='text'
@@ -51,9 +39,8 @@ const CreateForm = ({blogs, setBlogs, token, notify}) => {
           value={url}
           name="url"
           onChange={({target}) => setUrl(target.value)}
-        />
+        /><br />
         <button type="submit">Add</button>
-        {errorMsg && <p style={{color: 'red'}}>{errorMsg}</p>}
       </form>
     </section>
   )

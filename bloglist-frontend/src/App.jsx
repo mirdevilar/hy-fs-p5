@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import BlogsSection from './components/BlogsSection'
 import Login from './components/Login'
+import Toggleable from './components/Toggleable'
 
 import blogsService from './services/blogsService'
 import CreateForm from './components/CreateForm'
@@ -42,10 +43,10 @@ const App = () => {
 
       {notification && <p style={{color: notification.color}}>{notification.msg}</p>}
       {user && <p>Logged in as <b>{user.username}</b> <button onClick={handleLogout} >Log out</button></p>}
-      {user && <CreateForm blogs={blogs} setBlogs={setBlogs} token={user.token} notify={notify} />}
-      {user && <BlogsSection blogs={blogs} />}
 
       {!user && <Login setUser={setUser} />}
+      
+      <BlogsSection blogs={blogs} setBlogs={setBlogs} user={user} notify={notify} />
     </>
   )
 }
