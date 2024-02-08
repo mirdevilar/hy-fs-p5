@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ user, blog, blogs, setBlogs, updateBlog, deleteBlog }) => {
+const Blog = ({ user, blog, updateBlog, deleteBlog }) => {
   const [displayDetails, setDisplayDetails] = useState(false)
 
   const toggleDetails = () => {
@@ -33,14 +33,14 @@ const Blog = ({ user, blog, blogs, setBlogs, updateBlog, deleteBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <a href={blog.url}>{blog.title}</a> by {blog.author}
-      <button onClick={toggleDetails}>{displayDetails ? 'hide' : 'show'}</button>
+      <p><a href={blog.url} >{blog.title}</a> by {blog.author}</p>
+      <button name={displayDetails ? 'hide' : 'show'} data-testid="toggle-details" onClick={toggleDetails}>{displayDetails ? 'hide' : 'show'}</button>
       {displayDetails &&
-        <p>
-          Likes: {blog.likes}<button onClick={handleLike}>Like</button><br />
-          Uploaded by {blog.user.username}<br />
-          {blog.user.username === user.username && <button onClick={handleDelete}>Delete</button>}
-        </p>
+        <>
+          <p data-testid="likes"> Likes: {blog.likes}<button onClick={handleLike}>Like</button></p>
+          <p>Uploaded by {blog.user.username}</p>
+          {blog.user.username === user.username && <button name="delete" onClick={handleDelete}>Delete</button>}
+        </>
       }
     </div>
   )
