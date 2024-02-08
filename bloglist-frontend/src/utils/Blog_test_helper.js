@@ -28,55 +28,54 @@ const getQueryForElement = (element) => {
     throw new Error(`No query set up for element ${element}`)
   }
 
-  const by = queries[element][0]
-  const matcher = queries[element][1]
+  const query = queries[element]
+  const by = query[0]
+  const args = query.slice(1)
 
   if (!by) {
     throw new Error('Set up query must have a matcher type')
   }
 
-  if (!matcher && by !== 'testid') {
+  if (!args[0] && by !== 'testid') {
     throw new Error('This matcher type queries must have a matcher')
   }
 
-  const options = queries[element][2]
-
-  return { by, matcher, options }
+  return { by, args }
 }
 
 h.get = (element) => {
-  const { by, matcher, options } = getQueryForElement(element)
+  const { by, args } = getQueryForElement(element)
 
   if (by === 'text') {
-    return s.getByText(matcher, options)
+    return s.getByText(...args)
   }
   if (by === 'role') {
-    return s.getByRole(matcher, options)
+    return s.getByRole(...args)
   }
   if (by === 'testid') {
-    return s.getByTestId(element, options)
+    return s.getByTestId(...(args.length ? args : [element]))
   }
   if (by === 'label') {
-    return s.getByLabelText(matcher, options)
+    return s.getByLabelText(...args)
   }
 
   throw new Error('Invalid matcher type')
 }
 
 h.query = (element) => {
-  const { by, matcher, options } = getQueryForElement(element)
+  const { by, args } = getQueryForElement(element)
 
   if (by === 'text') {
-    return s.queryByText(matcher, options)
+    return s.queryByText(...args)
   }
   if (by === 'role') {
-    return s.queryByRole(matcher, options)
+    return s.queryByRole(...args)
   }
   if (by === 'testid') {
-    return s.queryByTestId(element, options)
+    return s.queryByTestId(...(args.length ? args : [element]))
   }
   if (by === 'label') {
-    return s.queryByLabelText(matcher, options)
+    return s.queryByLabelText(...args)
   }
 
   throw new Error('query not defined for this element')
