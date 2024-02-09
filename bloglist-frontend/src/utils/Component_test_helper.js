@@ -1,26 +1,12 @@
 import { screen } from '@testing-library/react'
-const s = screen
 import userEvent from '@testing-library/user-event'
 
 let h = {}
 
-let blog
 let queries
 
-h.setup = (props) => {
-  const { blog } = props
-
-  queries = {
-    'title': ['text', blog.title, { exact: false }],
-    'link': ['role', 'link', { href: blog.url }],
-    'author': ['text', blog.author, { exact: false }],
-    'show-details': ['role', 'button', { name: /show/i, exact: false }],
-
-    'likes': ['testid'],
-    'username': ['text', blog.user.username, { exact: false }],
-    'remove': ['role', 'button', { name: /delete/i, exact: false }],
-    'hide-details': ['role', 'button', { name: /hide/i, exact: false }],
-  }
+h.setup = (q) => {
+  queries = q
 }
 
 const getQueryForElement = (element) => {
@@ -47,16 +33,16 @@ h.get = (element) => {
   const { by, args } = getQueryForElement(element)
 
   if (by === 'text') {
-    return s.getByText(...args)
+    return screen.getByText(...args)
   }
   if (by === 'role') {
-    return s.getByRole(...args)
+    return screen.getByRole(...args)
   }
   if (by === 'testid') {
-    return s.getByTestId(...(args.length ? args : [element]))
+    return screen.getByTestId(...(args.length ? args : [element]))
   }
   if (by === 'label') {
-    return s.getByLabelText(...args)
+    return screen.getByLabelText(...args)
   }
 
   throw new Error('Invalid matcher type')
@@ -66,25 +52,19 @@ h.query = (element) => {
   const { by, args } = getQueryForElement(element)
 
   if (by === 'text') {
-    return s.queryByText(...args)
+    return screen.queryByText(...args)
   }
   if (by === 'role') {
-    return s.queryByRole(...args)
+    return screen.queryByRole(...args)
   }
   if (by === 'testid') {
-    return s.queryByTestId(...(args.length ? args : [element]))
+    return screen.queryByTestId(...(args.length ? args : [element]))
   }
   if (by === 'label') {
-    return s.queryByLabelText(...args)
+    return screen.queryByLabelText(...args)
   }
 
   throw new Error('query not defined for this element')
-}
-
-h.showDetails = async () => {
-  const user = userEvent.setup()
-  const showDetails = h.get('show-details')
-  await user.click(showDetails)
 }
 
 export default h

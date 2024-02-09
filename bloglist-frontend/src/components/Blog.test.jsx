@@ -1,9 +1,10 @@
-import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-const s = screen
+import React from 'react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import h from '../utils/Blog_test_helper'
+
+import h from '../utils/Component_test_helper'
+import queries from '../utils/Component_test_queries'
 
 import Blog from './Blog'
 
@@ -17,7 +18,13 @@ let blog = {
   }
 }
 
-h.setup({ blog })
+const showDetails = async () => {
+  const user = userEvent.setup()
+  const showDetails = h.get('show-details')
+  await user.click(showDetails)
+}
+
+h.setup(queries.blog(blog))
 
 describe('user owns blog', () => {
   const userProp = {
@@ -76,7 +83,7 @@ describe('user does not own blog', () => {
   })
 
   test('click show details > render delete button', async () => {
-    await h.showDetails()
+    await showDetails()
 
     const remove = h.query('remove')
     expect(remove).toBeNull()

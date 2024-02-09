@@ -25,22 +25,22 @@ const CreateForm = ({ createBlog }) => {
         Title:<input
           type='text'
           value={title}
-          name="title"
+          aria-label="title"
           onChange={({ target }) => setTitle(target.value)}
         /><br />
         Author:<input
           type='text'
           value={author}
-          name="author"
+          aria-label="author"
           onChange={({ target }) => setAuthor(target.value)}
         /><br />
         URL:<input
           type='url'
           value={url}
-          name="url"
+          aria-label='url'
           onChange={({ target }) => setUrl(target.value)}
         /><br />
-        <button type="submit">Add</button>
+        <button type="submit">Submit</button>
       </form>
     </section>
   )
