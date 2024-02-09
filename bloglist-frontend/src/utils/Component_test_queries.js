@@ -6,6 +6,7 @@ const blog = (blog) => (
     'show-details': ['role', 'button', { name: /show/i, exact: false }],
 
     'likes': ['testid'],
+    'like-button': ['role', 'button', { name: /like/i }],
     'username': ['text', blog.user.username, { exact: false }],
     'remove': ['role', 'button', { name: /delete/i, exact: false }],
     'hide-details': ['role', 'button', { name: /hide/i, exact: false }],

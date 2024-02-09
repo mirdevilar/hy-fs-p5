@@ -18,8 +18,7 @@ let blog = {
   }
 }
 
-const showDetails = async () => {
-  const user = userEvent.setup()
+const showDetails = async (user) => {
   const showDetails = h.get('show-details')
   await user.click(showDetails)
 }
@@ -54,8 +53,7 @@ describe('user owns blog', () => {
 
   test('click show details > render details', async () => {
     const user = userEvent.setup()
-    const showDetails = h.get('show-details')
-    await user.click(showDetails)
+    await showDetails(user)
 
     const likes = h.get('likes')
     expect(likes.innerHTML).toContain(blog.likes.toString())
@@ -64,28 +62,39 @@ describe('user owns blog', () => {
 
   test('click show details > render delete button', async () => {
     const user = userEvent.setup()
-    const showDetails = h.get('show-details')
-    await user.click(showDetails)
+    await showDetails(user)
 
     const remove = h.get('remove')
   })
 })
 
-describe('user does not own blog', () => {
+describe('click show details > user does not own blog', () => {
   const userProp = {
     username: 'arnauserra'
   }
 
-  const element = <Blog blog={blog} user={userProp} />
+  const mockFunction = jest.fn()
+  const element = <Blog blog={blog} user={userProp} updateBlog={mockFunction} />
 
-  beforeEach(() => {
+  let user
+
+  beforeEach(async () => {
+    user = userEvent.setup()
     render(element)
+    await showDetails(user)
   })
 
-  test('click show details > render delete button', async () => {
-    await showDetails()
-
+  test('render delete button', async () => {
     const remove = h.query('remove')
     expect(remove).toBeNull()
+  })
+
+  test('click like x2 > call update x2', async () => {
+    const likeButton = h.get('like-button')
+
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockFunction.mock.calls).toHaveLength(2)
   })
 })

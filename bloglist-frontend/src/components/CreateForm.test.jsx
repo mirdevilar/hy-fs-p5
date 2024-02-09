@@ -10,7 +10,7 @@ import CreateForm from './CreateForm'
 
 h.setup(queries.createForm())
 
-test('click submit > handler called with correct parameters', async () => {
+test('click submit > createBlog() called with correct parameters', async () => {
   const input = {
     title: 'React patterns',
     author: 'Michael Chan',
