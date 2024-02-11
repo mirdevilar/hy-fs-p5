@@ -34,14 +34,14 @@ const Login = ({ setUser }) => {
         <input
           type="text"
           value={username}
-          name="Username"
+          name="username"
           onChange={({ target }) => {setUsername(target.value)}}
         /><br />
         Password
         <input
           type="password"
           value={password}
-          name="Password"
+          name="password"
           onChange={({ target }) => {setPassword(target.value)}}
         /><br />
         <button type="submit">Log in</button>
