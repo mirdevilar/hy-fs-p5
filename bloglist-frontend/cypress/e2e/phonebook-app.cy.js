@@ -29,6 +29,7 @@ describe('Blog app', function() {
         .click()
 
       form.should('not.exist')
+      cy.contains(`Logged in as ${correctCredentials.username}`)
     })
 
     it('incorrect credentials >> fail login', function() {
