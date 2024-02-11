@@ -6,4 +6,6 @@
 
 *Please ignore this section if I forgot to remove it :(*
 
-- Return to exercise 5.15
+- Add the following notes to submission:
+    - About query library
+    

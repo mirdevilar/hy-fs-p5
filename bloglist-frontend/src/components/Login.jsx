@@ -44,7 +44,7 @@ const Login = ({ setUser }) => {
           name="Password"
           onChange={({ target }) => {setPassword(target.value)}}
         /><br />
-        <button type="submit">Login</button>
+        <button type="submit">Log in</button>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       </form>
     </section>
