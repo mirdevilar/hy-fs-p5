@@ -22,19 +22,22 @@ const CreateForm = ({ createBlog }) => {
     <section>
       <h3>Add new blog</h3>
       <form onSubmit={handleCreate}>
-        Title:<input
+        <label htmlFor="title">Title:</label>
+        <input
           type='text'
           value={title}
           aria-label="title"
           onChange={({ target }) => setTitle(target.value)}
         /><br />
-        Author:<input
+        <label htmlFor="author">Author:</label>
+        <input
           type='text'
           value={author}
           aria-label="author"
           onChange={({ target }) => setAuthor(target.value)}
         /><br />
-        URL:<input
+        <label htmlFor="url">URL:</label>
+        <input
           type='url'
           value={url}
           aria-label='url'
