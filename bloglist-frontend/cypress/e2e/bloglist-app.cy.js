@@ -85,7 +85,7 @@ describe('BLOG APP', function() {
 			cy.get('@url').type(testBlog.url)
 			cy.get('button[type="submit"]').click()
 
-			cy.get('a:contains("Go to statement considered harmful")')
+			cy.get('a:contains("Go to statement considered harmful")').should('exist')
     })
 
 		describe('BLOGLIST POPULATED', function() {
@@ -99,40 +99,43 @@ describe('BLOG APP', function() {
 					title: "First class tests",
 					author: "Robert C. Martin",
 					url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+					likes: 8
 				},
 				{
 					title: "TDD harms architecture",
 					author: "Robert C. Martin",
 					url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+					likes: 5
 				},
 				{
 					title: "Type wars",
 					author: "Robert C. Martin",
 					url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+					likes: 3
 				}  
 			]			
 
 			beforeEach(function() {
 				blogs.forEach(function(blog) {
-          cy.request({
-            method: 'POST',
-            url: 'blogs',
-            body: blog,
-            headers: {
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
-            },
-          });
+					cy.createBlog(blog)
         })
 				cy.visit('http://localhost:5173')
 			})
 				
-			it.only('can like blog', function() {
-				cy.get('button:contains("show")').eq(0).as('showButton')
-				cy.get('@showButton').parent().as('blog')
-				cy.get('@showButton').click()
-				cy.get('@blog').get('button:contains("Like")').as('likeButton')
+			it('can like blog', function() {
+				cy.get('p:contains("TDD harms architecture")').parent().as('blog')
+				cy.get('@blog').find('button:contains("show")').click()
+				cy.get('@blog').find('button:contains("Like")').as('likeButton')
 				cy.get('@likeButton').click()
-				cy.get('@likeButton').parent().contains('1')
+				cy.get('@likeButton').parent().should('contain', '6')
+			})
+
+			it('can delete own blog', function() {
+				cy.get('p:contains("TDD harms architecture")').parent().as('blog')
+				cy.get('@blog').find('button:contains("show")').click()
+				cy.get('@blog').find('button:contains("Delete")').click()
+				cy.get('p:contains("TDD harms architecture")').should('not.exist')
+				//cy.get('p:contains("TDD harms architecture")').toBe(null)
 			})
 		})
   })
