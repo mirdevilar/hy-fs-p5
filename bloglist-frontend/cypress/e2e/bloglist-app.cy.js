@@ -130,15 +130,20 @@ describe('BLOG APP', function() {
         cy.get('@likeButton').parent().should('contain', '6')
       })
 
+      it.only('blogs in like order', function() {
+        cy.get('button:contains("show")').parent().as('blog')
+        cy.get('@blog').eq(0).should('contain', 'First class tests')
+        cy.get('@blog').eq(3).should('contain', 'Go to statement considered harmful')
+      })
+
       it('can delete own blog', function() {
         cy.get('p:contains("TDD harms architecture")').parent().as('blog')
         cy.get('@blog').find('button:contains("show")').click()
         cy.get('@blog').find('button:contains("Delete")').click()
         cy.get('p:contains("TDD harms architecture")').should('not.exist')
-        //cy.get('p:contains("TDD harms architecture")').toBe(null)
       })
 
-      it.only('cannot delete other users blogs' , function() {
+      it('wrong user cannot see delete button on other users blogs' , function() {
         const unauthorizedUser = {
           username: 'arnauserra',
           password: 'peruna'
