@@ -87,5 +87,53 @@ describe('BLOG APP', function() {
 
 			cy.get('a:contains("Go to statement considered harmful")')
     })
+
+		describe('BLOGLIST POPULATED', function() {
+			const blogs = [
+				{
+					title: 'Go to statement considered harmful',
+					author: 'Edsger W. Dijkstra',
+					url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Consider…'
+				},
+				{
+					title: "First class tests",
+					author: "Robert C. Martin",
+					url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+				},
+				{
+					title: "TDD harms architecture",
+					author: "Robert C. Martin",
+					url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+				},
+				{
+					title: "Type wars",
+					author: "Robert C. Martin",
+					url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+				}  
+			]			
+
+			beforeEach(function() {
+				blogs.forEach(function(blog) {
+          cy.request({
+            method: 'POST',
+            url: 'blogs',
+            body: blog,
+            headers: {
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+            },
+          });
+        })
+				cy.visit('http://localhost:5173')
+			})
+				
+			it.only('can like blog', function() {
+				cy.get('button:contains("show")').eq(0).as('showButton')
+				cy.get('@showButton').parent().as('blog')
+				cy.get('@showButton').click()
+				cy.get('@blog').get('button:contains("Like")').as('likeButton')
+				cy.get('@likeButton').click()
+				cy.get('@likeButton').parent().contains('1')
+			})
+		})
   })
 })
