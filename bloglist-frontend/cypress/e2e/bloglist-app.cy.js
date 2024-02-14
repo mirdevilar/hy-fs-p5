@@ -63,19 +63,29 @@ describe('BLOG APP', function() {
     })
 
     it('can open create new form', function() {
-      cy.get('button:contains("+ New")').cilck()
+      cy.get('button:contains("+ New")').click()
       cy.get('form').contains('label', /author/i)
     })
 
     it('can create new blog', function() {
+      cy.get('button:contains("+ New")').click()
+      cy.contains('label', /author/i).parent().as('form')
       const testBlog = {
         title: 'Go to statement considered harmful',
         author: 'Edsger W. Dijkstra',
         url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Consider…'
       }
 
-      cy.get('form')
-        .contains('label', /title:/i).next('input').as()
+      cy.get('@form').contains('label', /title/i).next('input').as('title')
+      cy.get('@form').contains('label', /author/i).next('input').as('author')
+      cy.get('@form').contains('label', /url/i).next('input').as('url')
+			
+			cy.get('@title').type(testBlog.title)
+			cy.get('@author').type(testBlog.author)
+			cy.get('@url').type(testBlog.url)
+			cy.get('button[type="submit"]').click()
+
+			cy.get('a:contains("Go to statement considered harmful")')
     })
   })
 })
